@@ -1,0 +1,28 @@
+{
+  "author": "https://github.com/demx8as6/geo-calculator/graphs/contributors",
+  "name": "geo-calculator",
+  "description": "A small node application for geographic distance and azimuth calculations",
+  "version": "0.1.0",
+  "homepage": "https://github.com/demx8as6/geo-calculator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/demx8as6/geo-calculator.git"
+  },
+  "keywords": [
+    "geographic",
+    "distance",
+    "azimuth"
+  ],
+  "license": "AFL-2.0",
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "bugs": {
+    "url": "https://github.com/demx8as6/geo-calculator/issues"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "main": "dist/geoCalculator"
+}
