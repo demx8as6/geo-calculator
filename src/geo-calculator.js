@@ -1,13 +1,17 @@
 'use strict';
-// extenion
-Math.fmod = function (a,b) { 
-	return Number((a - (Math.floor(a / b) * b)).toPrecision(8)); 
-};
+// prototype
+if (!String.format) {
+	Math.fmod = function (a,b) { 
+		return Number((a - (Math.floor(a / b) * b)).toPrecision(8)); 
+	};
+}
 if (!String.format) {
   String.format = function(format) {
     var args = Array.prototype.slice.call(arguments, 1);
     return format.replace(/{(\d+)}/g, function(match, number) { 
-      return typeof args[number] != 'undefined' ? args[number] : match
+      return typeof args[number] != 'undefined'
+        ? args[number] 
+        : match
       ;
     });
   };
@@ -22,52 +26,26 @@ var geoCalculator = {};
 module.exports = geoCalculator;
 
 geoCalculator.about = function() {
-	console.log('GeoCalculator');
-};
-
-geoCalculator.distance = function(pointA, pointB) {
-	
-	var lonA = pointA[0]/180*pi; // lambda_A
-	var latA = pointA[1]/180*pi; // phi_A
-	
-	var lonB = pointB[0]/180*pi; // lambda_B
-	var latB = pointB[1]/180*pi; // phi_B
-	
-	var zeta = Math.acos(   Math.sin(latA) * Math.sin(latB) + Math.cos(latA) * Math.cos(latB) * Math.cos(lonB - lonA)  );
-	
-	return zeta * r;
-};
-
-geoCalculator.alpha = function(pointA, pointB) {
-	
-	var lonA = pointA[0]/180*pi; // lambda_A
-	var latA = pointA[1]/180*pi; // phi_A
-	
-	var lonB = pointB[0]/180*pi; // lambda_B
-	var latB = pointB[1]/180*pi; // phi_B
-	
-	var zeta = Math.acos(   Math.sin(latA) * Math.sin(latB) + Math.cos(latA) * Math.cos(latB) * Math.cos(lonB - lonA)  );
-	var alpha = Math.acos( (Math.sin(latB) - Math.sin(latA) * Math.cos(zeta) ) / (Math.cos(latA)  * Math.sin(zeta) ));
-	
-	return lonA < lonB ? 360 - alpha*180/pi : alpha*180/pi;
+	console.log('Geo Calculator');
 };
 
 geoCalculator.point2 = function(input, callback) {
 
 	// check for errors		
 	if (!isValid(input)) { 
-		var example = '{"point1":[54.0,10.0],"distance":111318,"angle":30}';
-		var message = '#ERROR: geoCalculator says:\n';
+		var example = '{"point1":[10.0,54.0],"distance":111318,"azimuth":30}';
+		var message = '#ERROR: geo-calculator says:\n';
 		message += ' Wrong input parameter: {0}\n';
 		message += ' An example for input parameter: {1}';
-		message = String.format(message, input, example);
+		message = String.format(message, JSON.stringify(input), example);
 		return callback(new Error(message));
 	}
 
 	// logic
  	var lon1 = input.point1[0]/180*pi;
 	var lat1 = input.point1[1]/180*pi;
-	var azimuth = input.angle/180*pi
+	
+	var azimuth = input.azimuth/180*pi
 	var d = input.distance / r;
 
     var lon2 = Math.cos(lat1) == 0 ? lon1 : Math.fmod(lon1 - Math.asin(Math.sin(-azimuth) * Math.sin(d) / Math.cos(lat1)) + pi, 2*pi) - pi;
@@ -85,7 +63,7 @@ var isValid = function(input) {
 	if (input.point1 === undefined) return false;
 	if (input.point1[0] === undefined) return false;
 	if (input.point1[1] === undefined) return false;
-	if (input.angle === undefined) return false;
+	if (input.azimuth === undefined) return false;
 	if (input.distance === undefined) return false;
 
 	return true;
