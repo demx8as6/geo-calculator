@@ -2,7 +2,7 @@
   "author": "https://github.com/demx8as6/geo-calculator/graphs/contributors",
   "name": "geo-calculator",
   "description": "A small node application for geographic distance and azimuth calculations",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/demx8as6/geo-calculator",
   "repository": {
     "type": "git",
