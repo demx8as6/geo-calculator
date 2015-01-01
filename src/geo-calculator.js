@@ -60,7 +60,7 @@ geoCalculator.point2 = function(input, callback) {
 
 	// check for errors		
 	if (!isValid(input)) { 
-		var example = '{"point1":[10.0,54.0],"distance":111318,"azimuth":30}';
+		var example = '{"point1":[54.0,10.0],"distance":111318,"azimuth":30}';
 		var message = '#ERROR: geo-calculator says:\n';
 		message += ' Wrong input parameter: {0}\n';
 		message += ' An example for input parameter: {1}';
@@ -85,7 +85,7 @@ geoCalculator.point2 = function(input, callback) {
 };
 
 var isValid = function(input) {
-	if (typeof input !== Object) {return false};
+	if (typeof input !== 'object') {return false};
 	if (input === null) {return false};
 	if (input.point1 === undefined) {return false};
 	if (input.point1[0] === undefined) {return false};
