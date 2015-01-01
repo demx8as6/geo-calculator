@@ -9,7 +9,7 @@ if (!String.format) {
   String.format = function(format) {
     var args = Array.prototype.slice.call(arguments, 1);
     return format.replace(/{(\d+)}/g, function(match, number) { 
-      return typeof args[number] != 'undefined'
+      return typeof args[number] !== 'undefined'
         ? args[number] 
         : match
       ;
@@ -31,11 +31,11 @@ geoCalculator.about = function() {
 
 geoCalculator.distance = function(pointA, pointB) {
 	
-	var lonA = pointA[0]/180*pi; // lambda_A
-	var latA = pointA[1]/180*pi; // phi_A
+	var latA = pointA[0]/180*pi; // phi_A
+	var lonA = pointA[1]/180*pi; // lambda_A
 	
-	var lonB = pointB[0]/180*pi; // lambda_B
-	var latB = pointB[1]/180*pi; // phi_B
+	var latB = pointB[0]/180*pi; // phi_B
+	var lonB = pointB[1]/180*pi; // lambda_B
 	
 	var zeta = Math.acos(   Math.sin(latA) * Math.sin(latB) + Math.cos(latA) * Math.cos(latB) * Math.cos(lonB - lonA)  );
 	
@@ -44,11 +44,11 @@ geoCalculator.distance = function(pointA, pointB) {
 
 geoCalculator.alpha = function(pointA, pointB) {
 	
-	var lonA = pointA[0]/180*pi; // lambda_A
-	var latA = pointA[1]/180*pi; // phi_A
+	var latA = pointA[0]/180*pi; // phi_A
+	var lonA = pointA[1]/180*pi; // lambda_A
 	
-	var lonB = pointB[0]/180*pi; // lambda_B
-	var latB = pointB[1]/180*pi; // phi_B
+	var latB = pointB[0]/180*pi; // phi_B
+	var lonB = pointB[1]/180*pi; // lambda_B
 	
 	var zeta = Math.acos(   Math.sin(latA) * Math.sin(latB) + Math.cos(latA) * Math.cos(latB) * Math.cos(lonB - lonA)  );
 	var alpha = Math.acos( (Math.sin(latB) - Math.sin(latA) * Math.cos(zeta) ) / (Math.cos(latA)  * Math.sin(zeta) ));
@@ -69,29 +69,29 @@ geoCalculator.point2 = function(input, callback) {
 	}
 
 	// logic
- 	var lon1 = input.point1[0]/180*pi;
-	var lat1 = input.point1[1]/180*pi;
+	var lat1 = input.point1[0]/180*pi;
+ 	var lon1 = input.point1[1]/180*pi;
 	
-	var azimuth = input.azimuth/180*pi
+	var azimuth = input.azimuth/180*pi;
 	var d = input.distance / r;
 
-    var lon2 = Math.cos(lat1) == 0 ? lon1 : Math.fmod(lon1 - Math.asin(Math.sin(-azimuth) * Math.sin(d) / Math.cos(lat1)) + pi, 2*pi) - pi;
    	var lat2 = Math.asin(Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(-azimuth));
+    var lon2 = Math.cos(lat1) == 0 ? lon1 : Math.fmod(lon1 - Math.asin(Math.sin(-azimuth) * Math.sin(d) / Math.cos(lat1)) + pi, 2*pi) - pi;
 
 	lon2=180*lon2/pi;
-	lat2=180*lat2/pi
+	lat2=180*lat2/pi;
 
-	return callback(null, [1*lon2.toFixed(6), 1*lat2.toFixed(6)]);
+	return callback(null, [1*lat2.toFixed(6), 1*lon2.toFixed(6)]);
 };
 
 var isValid = function(input) {
-	if (!typeof input === Object) return false;
-	if (input === null) return false;
-	if (input.point1 === undefined) return false;
-	if (input.point1[0] === undefined) return false;
-	if (input.point1[1] === undefined) return false;
-	if (input.azimuth === undefined) return false;
-	if (input.distance === undefined) return false;
+	if (typeof input !== Object) {return false};
+	if (input === null) {return false};
+	if (input.point1 === undefined) {return false};
+	if (input.point1[0] === undefined) {return false};
+	if (input.point1[1] === undefined) {return false};
+	if (input.azimuth === undefined) {return false};
+	if (input.distance === undefined) {return false};
 
 	return true;
 }
