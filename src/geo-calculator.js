@@ -29,6 +29,33 @@ geoCalculator.about = function() {
 	console.log('Geo Calculator');
 };
 
+geoCalculator.distance = function(pointA, pointB) {
+	
+	var lonA = pointA[0]/180*pi; // lambda_A
+	var latA = pointA[1]/180*pi; // phi_A
+	
+	var lonB = pointB[0]/180*pi; // lambda_B
+	var latB = pointB[1]/180*pi; // phi_B
+	
+	var zeta = Math.acos(   Math.sin(latA) * Math.sin(latB) + Math.cos(latA) * Math.cos(latB) * Math.cos(lonB - lonA)  );
+	
+	return zeta * r;
+};
+
+geoCalculator.alpha = function(pointA, pointB) {
+	
+	var lonA = pointA[0]/180*pi; // lambda_A
+	var latA = pointA[1]/180*pi; // phi_A
+	
+	var lonB = pointB[0]/180*pi; // lambda_B
+	var latB = pointB[1]/180*pi; // phi_B
+	
+	var zeta = Math.acos(   Math.sin(latA) * Math.sin(latB) + Math.cos(latA) * Math.cos(latB) * Math.cos(lonB - lonA)  );
+	var alpha = Math.acos( (Math.sin(latB) - Math.sin(latA) * Math.cos(zeta) ) / (Math.cos(latA)  * Math.sin(zeta) ));
+	
+	return lonA < lonB ? 360 - alpha*180/pi : alpha*180/pi;
+};
+
 geoCalculator.point2 = function(input, callback) {
 
 	// check for errors		
